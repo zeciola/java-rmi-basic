@@ -4,7 +4,7 @@ import java.rmi.registry.*;
 import java.rmi.server.*;
 import java.rmi.Naming;
 
-public class Servidor {
+public class Cliente {
     public static void main(String[] args) {
 		
 	/*
@@ -32,23 +32,26 @@ public class Servidor {
 	*/
 		
         try{
+            IComprador obj = (IComprador)Naming.lookup("Comprador");
             
-			//Iniciando Registry / Start Registry
-			
-			LocateRegistry.createRegistry(1099);
-			
-            //Criar o objeto / Create object
+            obj.setId(0);
+            obj.setNome("nome");
+            obj.setEmail("email");
+            obj.setTotalcompra(1000);
+            obj.calcularPorcentagemdesconto();
+            obj.calcularTotalPagar();
             
-            Comprador c = new Comprador();
-            
-            //Cadastrar o objeto ao registry / Register the object in registry
-            
-            Naming.rebind("//localhost/Comprador", c);
-            System.out.println("Cadastrando o objeto Comprador no Registry");
-			
+            System.out.println("Id: "+ obj.getId());
+            System.out.println("Nome: "+ obj.getNome());
+            System.out.println("Email: "+ obj.getEmail());
+            System.out.println("Total da compra: "+ obj.getTotalcompra());
+            System.out.println("Desconto: "+ obj.getPorcentagemdesconto());
+            System.out.println("Total a pagar: "+ obj.getTotalpagar());
+            System.out.println("");
         }
         catch(Exception e){
             System.out.println("Erro!!! "+ e.getMessage());
         }
+        System.exit(0);
     }
 }
